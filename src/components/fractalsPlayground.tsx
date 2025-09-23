@@ -15,18 +15,18 @@ export const FractalsPlayground: React.FC = () => {
   
   // Application state
   const [selectedFractal, setSelectedFractal] = useState<FractalType>('julia'); // Current fractal type
-  const [zoomLevel, setZoomLevel] = useState<number>(0); // Index into zoomLevels array
-  const [focusPoint, setFocusPoint] = useState<FocusPoint>({ x: 0, y: 0 }); // Center point for zoom operations
+  const [zoomLevel, setZoomLevel] = useState<number>(3); // Index into zoomLevels array
+  const [focusPoint, setFocusPoint] = useState<FocusPoint>({ x: 0.0, y: 0.0 }); // Center point for zoom operations
   const [showHelp, setShowHelp] = useState<boolean>(false); // Help panel visibility
 
   // Predefined zoom levels (radius around focus point)
-  const zoomLevels: number[] = [2.0, 1.0, 0.5, 0.1, 0.01];
+  const zoomLevels: number[] = [2.0, 1.0, 0.5, 0.75, 0.1, 0.05, 0.01, 0.005];
   
   // Fractal configuration with metadata
   const fractals: FractalInfo[] = [
-    { id: 'julia', name: 'Julia Set', thumb: '/thumbnails/julia.png' },
-    { id: 'apollonian', name: 'Apollonian Gasket', thumb: '/thumbnails/apollonian.png' },
-    { id: 'koch', name: 'Koch Star', thumb: '/thumbnails/koch.png' }
+    { id: 'julia', name: 'Julia Set', thumb: '/src/assets/julia_icon.png' },
+    { id: 'apollonian', name: 'Apollonian Gasket', thumb: '/src/assets/julia_icon.png' },
+    { id: 'koch', name: 'Koch Star', thumb: '/src/assets/julia_icon.png' }
   ];
 
   /**
@@ -39,8 +39,8 @@ export const FractalsPlayground: React.FC = () => {
       // Create thumbnail canvases for each fractal type
       fractals.forEach((fractal: FractalInfo) => {
         const canvas = document.createElement('canvas');
-        canvas.width = 120;
-        canvas.height = 80;
+        canvas.width = 64;
+        canvas.height = 64;
         const ctx = canvas.getContext('2d');
         
         if (!ctx) return;
@@ -184,11 +184,11 @@ export const FractalsPlayground: React.FC = () => {
               {/* HTML5 Canvas for fractal rendering */}
               <canvas 
                 ref={canvasRef}
-                width={600}
-                height={600}
+                width={1500}
+                height={800}
                 onClick={handleCanvasClick}
                 className="rounded-lg overflow-hidden shadow-2xl cursor-crosshair"
-                style={{ maxWidth: '100%', height: 'auto' }}
+                style={{ margin: '100pt', maxWidth: '100%', height: 'auto' }}
               />
               {/* Overlay with current focus and zoom information */}
               <div className="absolute top-4 left-4 bg-black bg-opacity-50 backdrop-blur-md rounded-lg px-3 py-2 text-sm">

@@ -28,8 +28,8 @@ export const drawJuliaSet = (ctx: CanvasRenderingContext2D, centerX: number, cen
       
       // Escape-time algorithm: z = z² + c
       while (zx2 * zx2 + zy2 * zy2 < 4 && iterations < maxIter) {
-        const xtemp = zx2 * zx2 - zy2 * zy2 - 0.8; // Real part of z² + c
-        zy2 = 2 * zx2 * zy2 + 0.156; // Imaginary part of z² + c
+        const xtemp = zx2 * zx2 - zy2 * zy2; // Real part of z² + c
+        zy2 = 2 * zx2 * zy2; // Imaginary part of z² + c
         zx2 = xtemp;
         iterations++;
       }
