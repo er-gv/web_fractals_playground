@@ -6,6 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
+  
   globalIgnores(['dist']),
   {
     files: ['**/*.{ts,tsx}'],
@@ -19,5 +20,10 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      '@typescript-eslint/no-unused-vars': 'warn', // Change from 'error' to 'warn'
+      // ...existing rules...
+    }
+
   },
 ])

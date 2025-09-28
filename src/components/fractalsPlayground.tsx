@@ -1,7 +1,7 @@
 import React, { useRef, useEffect, useState, useCallback } from 'react';
-import type { FocusPoint, FractalInfo, FractalType } from '../types';
-import { drawJuliaSet, drawApollonianGasket, drawKochStar } from '../utils/fractalsRenderer';
-import { generateJuliaThumbnail, generateApollonianThumbnail, generateKochThumbnail } from '../utils/thumbnailGenerators';
+import type { FocusPoint } from '../types';
+import { drawJuliaSet } from '../utils/fractalsRenderer';
+//import { generateJuliaThumbnail, generateApollonianThumbnail, generateKochThumbnail } from '../utils/thumbnailGenerators';
 
 /**
  * Fractals Playground - Interactive fractal explorer built with React and HTML5 Canvas
@@ -11,11 +11,11 @@ import { generateJuliaThumbnail, generateApollonianThumbnail, generateKochThumbn
 export const FractalsPlayground: React.FC = () => {
   // Canvas ref for direct HTML5 Canvas manipulation
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationRef = useRef<number | null>(null);
+  //const animationRef = useRef<number | null>(null);
   
   // Application state
-  const [selectedFractal, setSelectedFractal] = useState<FractalType>('julia'); // Current fractal type
-  const [zoomLevel, setZoomLevel] = useState<number>(3); // Index into zoomLevels array
+  //const [selectedFractal, setSelectedFractal] = useState<FractalType>('julia'); // Current fractal type
+  //const [zoomLevel, setZoomLevel] = useState<number>(3); // Index into zoomLevels array
   const [focusPoint, setFocusPoint] = useState<FocusPoint>({ x: 0.0, y: 0.0 }); // Center point for zoom operations
   const [showHelp, setShowHelp] = useState<boolean>(false); // Help panel visibility
 
@@ -23,18 +23,18 @@ export const FractalsPlayground: React.FC = () => {
   const zoomLevels: number[] = [2.0, 1.0, 0.5, 0.75, 0.1, 0.05, 0.01, 0.005];
   
   // Fractal configuration with metadata
-  const fractals: FractalInfo[] = [
+  /*const fractals: FractalInfo[] = [
     { id: 'julia', name: 'Julia Set', thumb: '/src/assets/julia_icon.png' },
     { id: 'apollonian', name: 'Apollonian Gasket', thumb: '/src/assets/julia_icon.png' },
     { id: 'koch', name: 'Koch Star', thumb: '/src/assets/julia_icon.png' }
   ];
-
+*/
   /**
    * Generate thumbnail images programmatically for the fractal selection UI
    * Creates small preview images with yellow gradient coloring that fades
    * from bright yellow to darker shades as distance increases
    */
-  useEffect(() => {
+  /*useEffect(() => {
     const generateThumbnails = (): void => {
       // Create thumbnail canvases for each fractal type
       fractals.forEach((fractal: FractalInfo) => {
@@ -60,18 +60,20 @@ export const FractalsPlayground: React.FC = () => {
         
         // Convert to data URL and store
         // In production, these would be saved as actual PNG files
-        const dataUrl = canvas.toDataURL('image/png');
+        const dataUrl = fractal.thumb; //canvas.toDataURL('image/png');
         console.log(`Generated thumbnail for ${fractal.name}`);
       });
     };
     
     generateThumbnails();
-  }, []);
+  }, []);*/
 
   /**
    * Main canvas drawing function - renders the selected fractal
    * Called whenever the fractal type, zoom level, or focus point changes
    */
+  const zoomLevel = zoomLevels[1];
+
   const drawFractal = useCallback((): void => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -79,14 +81,14 @@ export const FractalsPlayground: React.FC = () => {
     const ctx = canvas.getContext('2d');
     if (!ctx) return;
     
-    const radius = zoomLevels[zoomLevel];
+    const radius = zoomLevel;
     
     // Clear canvas with black background
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, canvas.width, canvas.height);
-    
+    drawJuliaSet(ctx, focusPoint.x, focusPoint.y, radius);
     // Render the selected fractal type
-    switch(selectedFractal) {
+    /*switch(selectedFractal) {
       case 'julia':
         drawJuliaSet(ctx, focusPoint.x, focusPoint.y, radius);
         break;
@@ -96,8 +98,8 @@ export const FractalsPlayground: React.FC = () => {
       case 'koch':
         drawKochStar(ctx, focusPoint.x, focusPoint.y, radius);
         break;
-    }
-  }, [selectedFractal, zoomLevel, focusPoint]);
+    }*/
+  }, ['apollonian', zoomLevel, focusPoint]);
 
   /**
    * Handle mouse clicks on canvas to set new focus point
@@ -120,17 +122,18 @@ export const FractalsPlayground: React.FC = () => {
 
   /**
    * Handle zoom level change from slider input
-   */
+   *
   const handleZoomChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     setZoomLevel(parseInt(event.target.value));
   };
-
+*/
   /**
    * Handle fractal type selection
-   */
+   
   const handleFractalSelect = (fractalId: FractalType): void => {
     setSelectedFractal(fractalId);
   };
+*/
 
   /**
    * Handle help panel toggle
@@ -193,19 +196,24 @@ export const FractalsPlayground: React.FC = () => {
               {/* Overlay with current focus and zoom information */}
               <div className="absolute top-4 left-4 bg-black bg-opacity-50 backdrop-blur-md rounded-lg px-3 py-2 text-sm">
                 Focus: ({focusPoint.x.toFixed(2)}, {focusPoint.y.toFixed(2)}) | 
-                Radius: {zoomLevels[zoomLevel]}
+                Radius: {zoomLevels[5].toFixed(zoomLevel)}
               </div>
             </div>
           </div>
         </div>
-
-        {/* Right Side Control Panel */}
-        <div className="w-80 space-y-6"/>
       
-        {/* Zoom Control Slider */}
-        <div className="bg-black bg-opacity-30 backdrop-blur-md rounded-xl p-4 border border-white border-opacity-20">
-          <h2 className="text-xl font-semibold mb-4 text-center">Zoom Level</h2>
-        </div> 
+         
       </div> 
-      </div>
+    </div>
   );}
+
+
+
+  // side panel for fractal selection
+  //{/* Right Side Control Panel */}
+  //      <div className="w-80 space-y-6"/>
+      
+//        {/* Zoom Control Slider */}
+//        <div className="bg-black bg-opacity-30 backdrop-blur-md rounded-xl p-4 border border-white border-opacity-20">
+//          <h2 className="text-xl font-semibold mb-4 text-center">Zoom Level</h2>
+//        </div>
